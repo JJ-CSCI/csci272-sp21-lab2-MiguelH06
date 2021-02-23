@@ -35,30 +35,51 @@ GPS::GPS()
 
 GPS::GPS(double m, double n)
 {
-  latitude = m;
-  longitude = n;
+  if((m >= 0.0) && (m <= 90.0))
+  {
+    latitude = m;
+    latitudeDirection = Compass::N;
+  }
+  else
+  latitude = 0.0;
   latitudeDirection = Compass::N;
+
+  if((n >= 0.0) && (n <= 180.0))
+  {
+    longitude = n;
+    longitudeDirection = Compass::W;
+  }
+  else
+  longitude = 0.0;
   longitudeDirection = Compass::W;
 }
 
-GPS::GPS(double lat, Compass latDir, double longid, Compass LongidDir)
+GPS::GPS(double lat, Compass latDir, double longid, Compass longidDir)
 {
   latitude = lat;
-  latitudeDirection = latDir;
   longitude = longid;
-  longitudeDirection = LongidDir;
+  latitudeDirection = latDir;
+  longitudeDirection = longidDir;
 
-  if(latitude > 90.0 && latitude < 0.0)
-  {
+  if(lat >= 0.0 && lat <= 90.0)
+    lat = latitude;
+  else
     latitude = 0.0;
+  
+  if(latDir == Compass::N || latDir == Compass::S)
+    latitudeDirection = latDir;
+  else
     latitudeDirection = Compass::N;
-  }
 
-  else if(longitude < 0.0 && longitude > 180.0)
-  {
+  if(longid >= 0.0 && longid <= 180.0)
+    longitude = longid;
+  else
     longitude = 0.0;
-    longitudeDirection = Compass::W;
-  }
+  
+  if(longidDir == Compass::W || longidDir == Compass::E)
+    longidDir = longitudeDirection;
+  else
+  longitudeDirection = Compass::W;
 }
 
 
